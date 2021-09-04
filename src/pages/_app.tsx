@@ -1,25 +1,13 @@
 import React from 'react';
 import {AppProps} from 'next/app';
-import {SWRConfig} from 'swr';
-import {APIResponse, HttpException} from 'nextkit';
+import {Provider} from 'jotai';
+import {ModalManager} from '../components/modal-manager';
 
 export default function App({Component, pageProps}: AppProps) {
 	return (
-		<SWRConfig
-			value={{
-				async fetcher<T>(url: string) {
-					const request = await fetch(url);
-					const body = (await request.json()) as APIResponse<T>;
-
-					if (!body.success) {
-						throw new HttpException(request.status, body.message);
-					}
-
-					return body.data;
-				},
-			}}
-		>
+		<Provider>
 			<Component {...pageProps} />
-		</SWRConfig>
+			<ModalManager />
+		</Provider>
 	);
 }

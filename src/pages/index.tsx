@@ -1,6 +1,31 @@
-import {useHello} from '../hooks/api/hello';
+import {useAtom} from 'jotai';
+import {atomActiveModal, modals} from '../state/atoms';
 
 export default function Home() {
-	const {data: {time} = {time: Date.now()}} = useHello();
-	return <div>{time}</div>;
+	const [, set] = useAtom(atomActiveModal);
+
+	return (
+		<div>
+			<h1>modals</h1>
+			<button
+				onClick={() => {
+					set(null);
+				}}
+			>
+				shut up
+			</button>
+			{Object.keys(modals).map(key => {
+				return (
+					<button
+						key={key}
+						onClick={() => {
+							set(key);
+						}}
+					>
+						{key}
+					</button>
+				);
+			})}
+		</div>
+	);
 }
