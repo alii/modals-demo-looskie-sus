@@ -19,7 +19,7 @@ export default function Home() {
 					<button
 						key={key}
 						onClick={() => {
-							set(key);
+							set(key as keyof typeof modals);
 						}}
 					>
 						{key}
